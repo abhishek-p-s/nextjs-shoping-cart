@@ -1,8 +1,8 @@
 import {cn} from '@/lib/utils';
 
-const ProductPrice = ({value, className}:{value:number, className?:string}) => {
+const ProductPrice = ({value, className}:{value:string, className?:string}) => {
 
-  const stringValue = value.toFixed(2).toString();
+  const stringValue = value
 
   const [intValue, floatValue] = stringValue.split('.');
 

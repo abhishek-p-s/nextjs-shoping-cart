@@ -1,4 +1,3 @@
-import { PrismaClient } from "@/lib/generated/prisma/client";
 import sampleData from "./sample-data";
 import { prisma } from "./db-connect";
 
