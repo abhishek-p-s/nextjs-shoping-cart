@@ -1,6 +1,5 @@
 import ProductList from "@/components/shared/product/product-list";
-import { Button } from "@/components/ui/button";
-import sampleData from "../db/sample-data";
+import sampleData from "@/db/sample-data";
 
 export const metadata = {
   title: "Home",
