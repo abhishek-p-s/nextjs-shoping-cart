@@ -1,5 +1,5 @@
-import sampleData from "./sample-data";
 import { prisma } from "./db-connect";
+import sampleData from "./sample-data";
 
 async function main(){
    try {
