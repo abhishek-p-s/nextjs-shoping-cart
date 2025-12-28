@@ -1,6 +1,9 @@
 import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price copy";
 import Rating from "@/components/shared/product/rating";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { getProductBySlug } from "@/lib/actions/product.action";
 import { notFound } from "next/navigation";
 
@@ -40,7 +43,7 @@ const ProductDetailsPage = async({ params }: { params: Promise<{ slug: string }>
             </div>
           </div>
           {/* Action Column */}
-          {/* <div>
+          <div>
             <Card>
               <CardContent className='p-4'>
                 <div className='mb-2 flex justify-between'>
@@ -59,22 +62,12 @@ const ProductDetailsPage = async({ params }: { params: Promise<{ slug: string }>
                 </div>
                 {product.stock > 0 && (
                   <div className='flex-center'>
-                    <AddToCart
-                      cart={cart}
-                      item={{
-                        productId: product.id,
-                        name: product.name,
-                        slug: product.slug,
-                        price: product.price,
-                        qty: 1,
-                        image: product.images![0],
-                      }}
-                    />
+                    <Button variant="default" className='w-full'>Add To Cart</Button>
                   </div>
                 )}
               </CardContent>
             </Card>
-          </div> */}
+          </div>
         </div>
       </section>
       <section className='mt-10'>
