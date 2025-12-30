@@ -28,5 +28,6 @@ export async function signInWithCredentials(
 }
 
 export async function signOutUser() {
+  console.log("inside signout function")
   await signOut()
 }
