@@ -71,6 +71,14 @@ export const config = {
       }
       return token;
     },
+    authorized({ request, auth }: any) {
+      if (!request.cookies.get("sessionCartId")) {
+        const sessionCartId = crypto.randomUUID();
+        console.log(sessionCartId, "sessionCartId");
+      } else {
+        return true;
+      }
+    },
   },
   pages: {
     signIn: "/sign-in",
