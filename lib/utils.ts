@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -17,7 +16,6 @@ export function formatNumberWithDecimal(num: number): string {
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : `${int}.00`;
 }
 
-
 // Format errors
 export function formatError(error: any): string {
   // Handle Zod validation errors
@@ -26,7 +24,7 @@ export function formatError(error: any): string {
     if (error.errors && Array.isArray(error.errors)) {
       const fieldErrors = error.errors.map((field: any) => {
         const fieldName = field.path.join(".");
-        return fieldName.message
+        return fieldName.message;
       });
 
       return fieldErrors.join(". ");
@@ -34,7 +32,7 @@ export function formatError(error: any): string {
     // Fallback if errors array doesn't exist
     return error.message || "Validation error occurred";
   }
-  
+
   // Handle Prisma unique constraint errors
   if (
     error.name === "PrismaClientKnownRequestError" &&
@@ -43,9 +41,15 @@ export function formatError(error: any): string {
     const field = error.meta?.target ? error.meta.target[0] : "Field";
     return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
   }
-  
+
   // Handle other errors
   return typeof error.message === "string"
     ? error.message
     : JSON.stringify(error.message);
+}
+
+//round number to 2 decimal number
+
+export function round2(value: number | string): number {
+  return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 }

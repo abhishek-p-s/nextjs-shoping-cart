@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./db/db-connect";
 import { compareSync } from "bcrypt-ts";
 import type { NextAuthConfig } from "next-auth";
+import { NextResponse } from "next/server";
 
 export const config = {
   providers: [
@@ -75,6 +76,18 @@ export const config = {
       if (!request.cookies.get("sessionCartId")) {
         const sessionCartId = crypto.randomUUID();
         console.log(sessionCartId, "sessionCartId");
+
+        // Create new response and add the new headers
+        const response = NextResponse.next({
+          request: {
+            headers: new Headers(request.headers),
+          },
+        });
+
+        // Set newly generated sessionCartId in the response cookies
+        response.cookies.set("sessionCartId", sessionCartId);
+
+        return response;
       } else {
         return true;
       }
