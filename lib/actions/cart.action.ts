@@ -165,7 +165,7 @@ export async function removeItemFromCart(productId: string) {
     if (!existItem) throw new Error("item not found");
 
     if (existItem?.qty === 1) {
-      cart.items.find((i) => i.productId !== product.id);
+      cart.items = cart.items.filter((i) => i.productId !== product.id);
     } else {
       existItem.qty = existItem.qty - 1;
     }
