@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { addItemToCart } from "@/lib/actions/cart.action";
-import { CartItem } from "@/types";
-import { PlusCircle } from "lucide-react";
+import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.action";
+import { Cart, CartItem } from "@/types";
+import { MinusCircle, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const AddToCart = ({ item }: { item: CartItem }) => {
+const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
 
   const handleAddToCart = async () => {
@@ -25,9 +25,34 @@ const AddToCart = ({ item }: { item: CartItem }) => {
     });
   };
 
-  return (
-    <Button variant="default" className="w-full mt-4" onClick={handleAddToCart}>
-      <PlusCircle /> Add to Cart
+  const handleRemoveFromCart = async () => {
+    try {
+      const res = await removeItemFromCart(item.productId);
+      console.log(res, "res");
+      if (res.success) {
+        toast.success("Item removed from cart");
+      }
+    } catch (error) {
+      toast.error("some error occured");
+    }
+  };
+
+  const existItem = cart?.items.find((i) => i.productId === item.productId);
+
+  return existItem ? (
+    <div>
+      <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
+        <MinusCircle className="w-4 h-4" />
+      </Button>
+      <span className="px-2">{existItem.qty}</span>
+      <Button type="button" variant="outline" onClick={handleAddToCart}>
+        <PlusCircle className="w-4 h-4" />
+      </Button>
+    </div>
+  ) : (
+    <Button className="w-full" type="button" onClick={handleAddToCart}>
+      <PlusCircle className="w-4 h-4" />
+      Add To Cart
     </Button>
   );
 };

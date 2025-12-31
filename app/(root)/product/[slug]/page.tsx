@@ -3,8 +3,8 @@ import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price copy";
 import Rating from "@/components/shared/product/rating";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getMyCart } from "@/lib/actions/cart.action";
 import { getProductBySlug } from "@/lib/actions/product.action";
 import { notFound } from "next/navigation";
 
@@ -16,6 +16,8 @@ const ProductDetailsPage = async ({
   const { slug } = await params;
 
   const product = await getProductBySlug(slug);
+
+  const cart = await getMyCart();
 
   if (!product) notFound();
 
@@ -70,6 +72,7 @@ const ProductDetailsPage = async ({
                 {product.stock > 0 && (
                   <div className="flex-center">
                     <AddToCart
+                      cart={cart}
                       item={{
                         productId: product.id,
                         slug: product.slug,
