@@ -57,7 +57,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
           <form
             method="post"
             className="space-y-4"
-            //onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="flex flex-col md:flex-row gap-5">
               <FormField
