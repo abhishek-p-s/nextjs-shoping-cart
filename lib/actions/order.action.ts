@@ -5,7 +5,7 @@ import { getMyCart } from "./cart.action";
 import { getUserById } from "./user.action";
 import { insertOrderSchema } from "../validators";
 import { prisma } from "@/db/db-connect";
-import { CartItem, ShippingAddress } from "@/types";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 import { formatError } from "../utils";
 
 export const createOrder = async function () {
@@ -94,16 +94,17 @@ export async function getOrderById(orderId: string) {
       where: { id: orderId },
       include: {
         orderItems: true,
-        user: {
-          select: { name: true, email: true },
-        },
+        user: { select: { name: true, email: true } },
       },
     });
-    if (!order) throw new Error("Order not found");
+
+    if (!order) return null;
+
     return {
       id: order.id,
+      userId: order.userId,
       user: order.user,
-      orderItems: order.orderItems.map((item) => ({
+      orderitems: order.orderItems.map((item) => ({
         productId: item.productId,
         name: item.name,
         slug: item.slug,
@@ -121,11 +122,11 @@ export async function getOrderById(orderId: string) {
       paidAt: order.paidAt,
       isDelivered: order.isDelivered,
       deliveredAt: order.deliveredAt,
+      paymentResult: order.paymentResult as PaymentResult,
+      createdAt: order.createdAt,
     };
   } catch (error) {
-    return {
-      success: false,
-      message: "" + formatError(error),
-    };
+    console.error(error);
+    return null;
   }
 }
