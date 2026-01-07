@@ -18,14 +18,13 @@ const OrderDetailsPage = async (props: {
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  console.log(order, "order")
-
   return (
     <OrderDetailsTable
       order={{
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress,
       }}
+      paypalClientId={process.env.PAYPAL_CLIENT_ID as string||"sb"}
     />
   );
 };
